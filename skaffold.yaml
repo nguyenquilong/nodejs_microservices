@@ -1,0 +1,21 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+profiles:
+  - name: dev
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/k8s/*
+build:
+  local:
+    push: false
+  artifacts:
+    - image: longnq/auth
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+
